@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TailorTail – Dieta Szyta Na Miarę Dla Twojego Pupila</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FFF9E6;
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --text: #2F2F2F;
+            --highlight: #FF9F1C;
+            --white: #FFFFFF;
+            --shadow: rgba(47, 47, 47, 0.1);
+            --shadow-strong: rgba(47, 47, 47, 0.15);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --radius-xl: 40px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Fredoka One', cursive;
+            font-weight: 400;
+        }
+
+        /* Floating decorations */
+        .floating-paw {
+            position: fixed;
+            opacity: 0.06;
+            font-size: 120px;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 8s ease-in-out infinite;
+        }
+        .floating-paw:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-paw:nth-child(2) { top: 60%; right: 8%; animation-delay: 2s; }
+        .floating-paw:nth-child(3) { bottom: 15%; left: 15%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 249, 230, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.6rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: waggle 2s ease-in-out infinite;
+        }
+
+        @keyframes waggle {
+            0%, 100% { transform: rotate(-8deg); }
+            50% { transform: rotate(8deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            padding: 0.7rem 1.2rem;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--white);
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Main container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 2rem 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Page sections */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 80vh;
+            padding: 2rem 0;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--text);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+            position: relative;
+        }
+
+        .hero-content h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: var(--accent);
+            z-index: -1;
+            border-radius: 4px;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 2rem;
+            opacity: 0.85;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-xl);
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border: 4px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 8px 0 #D94545;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #D94545;
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0 #D94545;
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--secondary);
+            border-color: var(--secondary);
+            box-shadow: 0 8px 0 #3BA89E;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #3BA89E;
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Hero Illustration */
+        .hero-illustration {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pet-card {
+            position: relative;
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            border: 4px solid var(--text);
+            box-shadow: 12px 12px 0 var(--accent);
+            transform: rotate(3deg);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pet-card:hover {
+            transform: rotate(-2deg) scale(1.02);
+            box-shadow: 16px 16px 0 var(--secondary);
+        }
+
+        .pet-avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            margin: 0 auto 1.5rem;
+            border: 5px solid var(--white);
+            box-shadow: 0 8px 20px var(--shadow-strong);
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .pet-card h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pet-card-tag {
+            display: inline-block;
+            background: var(--accent);
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0 auto;
+            display: block;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .floating-bowl {
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            font-size: 60px;
+            animation: rock 2s ease-in-out infinite;
+        }
+
+        @keyframes rock {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Bento Features Grid */
+        .features-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 4px solid var(--text);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--primary);
+        }
+
+        .bento-card:nth-child(2)::before { background: var(--secondary); }
+        .bento-card:nth-child(3)::before { background: var(--accent); }
+        .bento-card:nth-child(4)::before { background: var(--highlight); }
+        .bento-card:nth-child(5)::before { background: var(--primary); }
+        .bento-card:nth-child(6)::before { background: var(--secondary); }
+
+        .bento-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px var(--shadow-strong);
+        }
+
+        .bento-card.large {
+            grid-column: span 2;
+        }
+
+        .bento-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .bento-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .bento-card p {
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .progress-step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 4px solid var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .progress-step.active {
+            background: var(--primary);
+            color: var(--white);
+            transform: scale(1.15);
+        }
+
+        .progress-step.completed {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .progress-step::after {
+            content: '';
+            position: absolute;
+            right: -16px;
+            width: 12px;
+            height: 4px;
+            background: var(--text);
+            border-radius: 2px;
+        }
+
+        .progress-step:last-child::after {
+            display: none;
+        }
+
+        .quiz-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            border: 4px solid var(--text);
+            box-shadow: 8px 8px 0 var(--accent);
+            position: relative;
+        }
+
+        .quiz-step {
+            display: none;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .quiz-step.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .quiz-card h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quiz-card > p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 3px solid var(--text);
+            border-radius: var(--radius-md);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--bg);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.2);
+        }
+
+        /* Pet Species Selection */
+        .species-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .species-option {
+            background: var(--bg);
+            border: 4px solid var(--text);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .species-option:hover {
+            transform: scale(1.03);
+        }
+
+        .species-option.selected {
+            background: var(--secondary);
+            color: var(--white);
+            box-shadow: 6px 6px 0 var(--text);
+        }
+
+        .species-option .emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .species-option span:last-child {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+        }
+
+        /* Activity Level Selector */
+        .activity-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .activity-option {
+            background: var(--bg);
+            border: 3px solid var(--text);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .activity-option:hover {
+            border-color: var(--primary);
+        }
+
+        .activity-option.selected {
+            background: var(--highlight);
+            border-color: var(--highlight);
+            box-shadow: 4px 4px 0 var(--text);
+        }
+
+        .activity-option .emoji {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-option span:last-child {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Allergies Multi-select */
+        .allergy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .allergy-tag {
+            background: var(--bg);
+            border: 3px solid var(--text);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .allergy-tag:hover {
+            border-color: var(--primary);
+        }
+
+        .allergy-tag.selected {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .quiz-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .quiz-buttons .btn {
+            flex: 1;
+        }
+
+        /* Results Card */
+        .results-container {
+            text-align: center;
+        }
+
+        .results-pet-animation {
+            font-size: 6rem;
+            animation: celebration 0.6s ease-in-out infinite alternate;
+        }
+
+        @keyframes celebration {
+            from { transform: scale(1) rotate(-5deg); }
+            to { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .diet-recommendation {
+            background: var(--bg);
+            border: 4px solid var(--secondary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .diet-recommendation h3 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .diet-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .diet-stat {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+            border: 3px solid var(--text);
+        }
+
+        .diet-stat-value {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .diet-stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .price-breakdown {
+            background: var(--accent);
+            border: 4px solid var(--text);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .price-main {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .price-value {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3rem;
+            color: var(--text);
+        }
+
+        .price-period {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        /* Dashboard Section */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        .dashboard-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            border: 4px solid var(--text);
+            text-align: center;
+            box-shadow: 6px 6px 0 var(--secondary);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--highlight));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin: 0 auto 1rem;
+            border: 4px solid var(--white);
+            box-shadow: 0 6px 15px var(--shadow);
+        }
+
+        .profile-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-card .species-tag {
+            display: inline-block;
+            background: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Subscription Card */
+        .subscription-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            border: 4px solid var(--text);
+        }
+
+        .subscription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .subscription-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .subscription-status.active {
+            background: #D4EDDA;
+            color: #155724;
+        }
+
+        .subscription-status.trial {
+            background: var(--accent);
+            color: var(--text);
+        }
+
+        .subscription-status.paused {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toggle {
+            width: 60px;
+            height: 32px;
+            background: #DDD;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid var(--text);
+        }
+
+        .toggle.active {
+            background: var(--secondary);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: var(--white);
+            border-radius: 50%;
+            top: 2px;
+            left: 3px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--text);
+        }
+
+        .toggle.active::after {
+            left: 31px;
+        }
+
+        /* Dashboard Main Content */
+        .dashboard-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            border: 4px solid var(--text);
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Edit Stats Form */
+        .edit-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .edit-stat-item {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .edit-stat-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .edit-stat-item input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 3px solid var(--text);
+            border-radius: var(--radius-md);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            background: var(--white);
+        }
+
+        .edit-stat-item input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Delivery Date Picker */
+        .delivery-picker {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .date-option {
+            background: var(--bg);
+            border: 3px solid var(--text);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .date-option:hover {
+            border-color: var(--primary);
+        }
+
+        .date-option.selected {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .date-option .day {
+            display: block;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.8rem;
+        }
+
+        .date-option .month {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Delivery Tracking */
+        .tracking-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tracking-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            border: 4px solid var(--text);
+            box-shadow: 8px 8px 0 var(--secondary);
+        }
+
+        .tracking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tracking-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tracking-id {
+            background: var(--bg);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 2px solid var(--text);
+        }
+
+        .tracking-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-track {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            border: 2px solid var(--text);
+            z-index: 0;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .timeline-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 4px solid var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step.completed .timeline-icon {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .timeline-step.current .timeline-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+            animation: pulseIcon 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .timeline-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .timeline-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Map Placeholder */
+        .map-container {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, #E8F6F3, #D1F2EB);
+            border-radius: var(--radius-lg);
+            height: 250px;
+            border: 4px solid var(--text);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .map-overlay .emoji {
+            font-size: 4rem;
+            animation: drive 2s ease-in-out infinite;
+        }
+
+        @keyframes drive {
+            0%, 100% { transform: translateX(-30px); }
+            50% { transform: translateX(30px); }
+        }
+
+        .eta-badge {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-lg);
+            font-weight: 700;
+            margin-top: 1rem;
+            border: 3px solid var(--text);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            text-align: center;
+            border-top: 4px solid var(--accent);
+        }
+
+        .footer-logo {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bento-card.large {
+                grid-column: span 1;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .main-container {
+                padding: 80px 1rem 2rem;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .species-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .allergy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quiz-buttons {
+                flex-direction: column;
+            }
+
+            .diet-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-steps {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .timeline-track {
+                width: 8px;
+                height: calc(100% - 60px);
+                top: 30px;
+                left: 26px;
+                right: auto;
+            }
+
+            .timeline-progress {
+                width: 100%;
+                height: var(--progress);
+            }
+
+            .timeline-step {
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            .delivery-picker {
+                justify-content: center;
+            }
+        }
+
+        /* Animations on scroll */
+        .animate-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .animate-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Decorations -->
+    <div class="floating-paw">🐾</div>
+    <div class="floating-paw">🐾</div>
+    <div class="floating-paw">🐾</div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="logo" onclick="showPage('home')">
+            <div class="logo-icon">🐕</div>
+            TailorTail
+        </a>
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">Start</a>
+            <a href="#" class="nav-link" data-page="quiz" onclick="showPage('quiz')">Quiz Dietetyczny</a>
+            <a href="#" class="nav-link" data-page="dashboard" onclick="showPage('dashboard')">Panel Pupila</a>
+            <a href="#" class="nav-link" data-page="tracking" onclick="showPage('tracking')">Śledzenie</a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- HOME PAGE -->
+        <section class="page active" id="page-home">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Dieta <span>szyta na miarę</span> dla Twojego pupila</h1>
+                    <p>Koniec z zgadywaniem! Nasz inteligentny algorytm dobierze idealny plan żywieniowy dla Twojego psa lub kota, uwzględniając wagę, aktywność i alergie. Świeże składniki prosto pod Twoje drzwi!</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showPage('quiz')">
+                            🎯 Rozpocznij Quiz
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPage('dashboard')">
+                            📊 Zobacz Demo
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-illustration">
+                    <div class="pet-card">
+                        <div class="pet-avatar">🐕</div>
+                        <h3>Burek</h3>
+                        <span class="pet-card-tag">Plan: Aktywny Sportowiec</span>
+                        <div class="floating-bowl">🥣</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Bento Grid -->
+            <section class="features-section">
+                <h2 class="section-title">Dlaczego TailorTail?</h2>
+                <p class="section-subtitle">Bo każdy pupil zasługuje na dietę dopasowaną jak ulubiona obroża!</p>
+                
+                <div class="bento-grid">
+                    <div class="bento-card large animate-in">
+                        <div class="bento-icon">🧪</div>
+                        <h3>Algorytm NutritionEngine</h3>
+                        <p>Nasz silnik AI analizuje wagę, poziom aktywności i wykluczenia pokarmowe, by zaproponować optymalną dietę. Żadnych pustych kalorii – tylko to, co najlepsze!</p>
+                    </div>
+                    <div class="bento-card animate-in">
+                        <div class="bento-icon">🚫</div>
+                        <h3>Bez Alergii</h3>
+                        <p>Masz alergika? Wyklucz problematyczne składniki jednym kliknięciem. Kurczak, gluten, nabiał – wszystko pod kontrolą.</p>
+                    </div>
+                    <div class="bento-card animate-in">
+                        <div class="bento-icon">📦</div>
+                        <h3>Dostawa Pod Drzwi</h3>
+                        <p>Elastyczny harmonogram dostaw. Ty wybierasz dzień, my dostarczamy świeżość!</p>
+                    </div>
+                    <div class="bento-card animate-in">
+                        <div class="bento-icon">💰</div>
+                        <h3>Przejrzyste Ceny</h3>
+                        <p>Żadnych ukrytych opłat. Widzisz dokładnie, ile płacisz miesięcznie za pełne szczęście pupila.</p>
+                    </div>
+                    <div class="bento-card large animate-in">
+                        <div class="bento-icon">📈</div>
+                        <h3>Śledź Postępy</h3>
+                        <p>Panel pupila pozwala monitorować wagę, dostosowywać porcje i śledzić, jak Twój futrzak rozkwita na nowej diecie. Dane w jednym miejscu!</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- QUIZ PAGE -->
+        <section class="page" id="page-quiz">
+            <div class="quiz-container">
+                <h2 class="section-title" style="margin-bottom: 0.5rem;">🎯 Quiz Dietetyczny</h2>
+                <p class="section-subtitle">Odpowiedz na kilka pytań, a my dobierzemy idealny plan!</p>
+
+                <div class="quiz-progress">
+                    <div class="progress-step active" data-step="1">1</div>
+                    <div class="progress-step" data-step="2">2</div>
+                    <div class="progress-step" data-step="3">3</div>
+                    <div class="progress-step" data-step="4">4</div>
+                </div>
+
+                <div class="quiz-card">
+                    <!-- Step 1: Pet Details -->
+                    <div class="quiz-step active" id="quiz-step-1">
+                        <h2>🐾 Kim jest Twój pupil?</h2>
+                        <p>Poznajmy się! Opowiedz nam o swoim futrzaku.</p>
+
+                        <div class="species-selector">
+                            <div class="species-option" data-species="dog" onclick="selectSpecies('dog')">
+                                <span class="emoji">🐕</span>
+                                <span>Pies</span>
+                            </div>
+                            <div class="species-option" data-species="cat" onclick="selectSpecies('cat')">
+                                <span class="emoji">🐈</span>
+                                <span>Kot</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pet-name">Jak ma na imię?</label>
+                            <input type="text" id="pet-name" class="form-input" placeholder="np. Burek, Mruczek...">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label for="pet-age">Wiek (lata)</label>
+                                <input type="number" id="pet-age" class="form-input" placeholder="np. 3" min="0" max="25">
+                            </div>
+                            <div class="form-group">
+                                <label for="pet-weight">Waga (kg)</label>
+                                <input type="number" id="pet-weight" class="form-input" placeholder="np. 12" min="0" max="100" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="quiz-buttons">
+                            <div></div>
+                            <button class="btn btn-primary" onclick="nextStep(2)">Dalej →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Activity Level -->
+                    <div class="quiz-step" id="quiz-step-2">
+                        <h2>🏃 Poziom aktywności</h2>
+                        <p>Jak aktywny jest Twój pupil na co dzień?</p>
+
+                        <div class="activity-selector">
+                            <div class="activity-option" data-activity="low" onclick="selectActivity('low')">
+                                <span class="emoji">😴</span>
+                                <span>Kanapowiec</span>
+                            </div>
+                            <div class="activity-option" data-activity="moderate" onclick="selectActivity('moderate')">
+                                <span class="emoji">🚶</span>
+                                <span>Umiarkowany</span>
+                            </div>
+                            <div class="activity-option" data-activity="active" onclick="selectActivity('active')">
+                                <span class="emoji">🏃</span>
+                                <span>Aktywny</span>
+                            </div>
+                            <div class="activity-option" data-activity="athlete" onclick="selectActivity('athlete')">
+                                <span class="emoji">🏆</span>
+                                <span>Sportowiec</span>
+                            </div>
+                        </div>
+
+                        <div class="quiz-buttons" style="margin-top: 3rem;">
+                            <button class="btn btn-secondary" onclick="prevStep(1)">← Wstecz</button>
+                            <button class="btn btn-primary" onclick="nextStep(3)">Dalej →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Allergies -->
+                    <div class="quiz-step" id="quiz-step-3">
+                        <h2>🚫 Alergie i wykluczenia</h2>
+                        <p>Zaznacz składniki, których Twój pupil nie może jeść:</p>
+
+                        <div class="allergy-grid">
+                            <div class="allergy-tag" data-allergy="chicken" onclick="toggleAllergy(this)">
+                                🐔 Kurczak
+                            </div>
+                            <div class="allergy-tag" data-allergy="beef" onclick="toggleAllergy(this)">
+                                🐄 Wołowina
+                            </div>
+                            <div class="allergy-tag" data-allergy="pork" onclick="toggleAllergy(this)">
+                                🐷 Wieprzowina
+                            </div>
+                            <div class="allergy-tag" data-allergy="fish" onclick="toggleAllergy(this)">
+                                🐟 Ryby
+                            </div>
+                            <div class="allergy-tag" data-allergy="dairy" onclick="toggleAllergy(this)">
+                                🥛 Nabiał
+                            </div>
+                            <div class="allergy-tag" data-allergy="gluten" onclick="toggleAllergy(this)">
+                                🌾 Gluten
+                            </div>
+                            <div class="allergy-tag" data-allergy="eggs" onclick="toggleAllergy(this)">
+                                🥚 Jajka
+                            </div>
+                            <div class="allergy-tag" data-allergy="soy" onclick="toggleAllergy(this)">
+                                🫘 Soja
+                            </div>
+                            <div class="allergy-tag" data-allergy="corn" onclick="toggleAllergy(this)">
+                                🌽 Kukurydza
+                            </div>
+                        </div>
+
+                        <div class="quiz-buttons" style="margin-top: 2rem;">
+                            <button class="btn btn-secondary" onclick="prevStep(2)">← Wstecz</button>
+                            <button class="btn btn-primary" onclick="calculateDiet()">🎯 Zobacz wynik!</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Results -->
+                    <div class="quiz-step" id="quiz-step-4">
+                        <div class="results-container">
+                            <div class="results-pet-animation" id="results-emoji">🐕</div>
+                            <h2 style="font-size: 2rem; margin: 1rem 0;">Mamy to, <span id="results-name">Burek</span>!</h2>
+                            <p style="font-size: 1.1rem; opacity: 0.8;">Na podstawie Twoich odpowiedzi przygotowaliśmy idealny plan:</p>
+
+                            <div class="diet-recommendation">
+                                <h3>🥗 <span id="diet-name">Plan Aktywnego Sportowca</span></h3>
+                                <p id="diet-description">Wysokoenergetyczna dieta bogata w białko i zdrowe tłuszcze. Idealna dla aktywnych psów, które potrzebują paliwa do codziennych przygód!</p>
+                                
+                                <div class="diet-stats">
+                                    <div class="diet-stat">
+                                        <div class="diet-stat-value" id="kcal-daily">850</div>
+                                        <div class="diet-stat-label">kcal dziennie</div>
+                                    </div>
+                                    <div class="diet-stat">
+                                        <div class="diet-stat-value" id="protein-pct">32%</div>
+                                        <div class="diet-stat-label">białka</div>
+                                    </div>
+                                    <div class="diet-stat">
+                                        <div class="diet-stat-value" id="delivery-days">14</div>
+                                        <div class="diet-stat-label">dni między dostawami</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="price-breakdown">
+                                <p style="font-weight: 600; margin-bottom: 0.5rem;">💰 Miesięczny koszt:</p>
+                                <div class="price-main">
+                                    <span class="price-value" id="monthly-price">189</span>
+                                    <span class="price-period">zł / miesiąc</span>
+                                </div>
+                                <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">Darmowa dostawa • Bez zobowiązań • Anuluj kiedy chcesz</p>
+                            </div>
+
+                            <div class="quiz-buttons">
+                                <button class="btn btn-secondary" onclick="restartQuiz()">🔄 Zacznij od nowa</button>
+                                <button class="btn btn-primary" onclick="startSubscription()">🚀 Rozpocznij subskrypcję!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD PAGE -->
+        <section class="page" id="page-dashboard">
+            <h2 class="section-title" style="margin-bottom: 2rem;">📊 Panel Pupila</h2>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-sidebar">
+                    <!-- Profile Card -->
+                    <div class="profile-card">
+                        <div class="profile-avatar" id="dashboard-avatar">🐕</div>
+                        <h3 id="dashboard-pet-name">Burek</h3>
+                        <span class="species-tag" id="dashboard-species">Pies</span>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="dashboard-age">3</div>
+                                <div class="stat-label">lata</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="dashboard-weight">12</div>
+                                <div class="stat-label">kg</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="dashboard-activity">🏃</div>
+                                <div class="stat-label">aktywność</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="dashboard-plan">Pro</div>
+                                <div class="stat-label">plan</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscription Status -->
+                    <div class="subscription-card">
+                        <div class="subscription-header">
+                            <h4 style="font-family: 'Fredoka One', cursive;">Status Subskrypcji</h4>
+                            <div class="subscription-status active" id="sub-status">
+                                <div class="status-dot"></div>
+                                Aktywna
+                            </div>
+                        </div>
+                        <div class="toggle-container">
+                            <span style="font-weight: 600;">Wstrzymaj dostawy:</span>
+                            <div class="toggle" id="pause-toggle" onclick="toggleSubscription()"></div>
+                        </div>
+                        <p style="font-size: 0.85rem; opacity: 0.7; margin-top: 1rem;">
+                            Następne rozliczenie: <strong>15 lutego 2026</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dashboard-main">
+                    <!-- Update Pet Stats -->
+                    <div class="dashboard-card">
+                        <h3>✏️ Aktualizuj dane pupila</h3>
+                        <div class="edit-stats-grid">
+                            <div class="edit-stat-item">
+                                <label>Waga (kg)</label>
+                                <input type="number" id="edit-weight" value="12" step="0.1">
+                            </div>
+                            <div class="edit-stat-item">
+                                <label>Wiek (lata)</label>
+                                <input type="number" id="edit-age" value="3">
+                            </div>
+                            <div class="edit-stat-item">
+                                <label>Porcja dzienna (g)</label>
+                                <input type="number" id="edit-portion" value="280">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top: 1.5rem;" onclick="saveStats()">
+                            💾 Zapisz zmiany
+                        </button>
+                    </div>
+
+                    <!-- Adjust Delivery Date -->
+                    <div class="dashboard-card">
+                        <h3>📅 Zmień datę dostawy</h3>
+                        <p style="opacity: 0.8; margin-bottom: 1.5rem;">Wybierz preferowany dzień następnej dostawy:</p>
+                        <div class="delivery-picker">
+                            <div class="date-option" onclick="selectDate(this, '18', 'sty')">
+                                <span class="day">18</span>
+                                <span class="month">sty</span>
+                            </div>
+                            <div class="date-option selected" onclick="selectDate(this, '20', 'sty')">
+                                <span class="day">20</span>
+                                <span class="month">sty</span>
+                            </div>
+                            <div class="date-option" onclick="selectDate(this, '22', 'sty')">
+                                <span class="day">22</span>
+                                <span class="month">sty</span>
+                            </div>
+                            <div class="date-option" onclick="selectDate(this, '25', 'sty')">
+                                <span class="day">25</span>
+                                <span class="month">sty</span>
+                            </div>
+                            <div class="date-option" onclick="selectDate(this, '27', 'sty')">
+                                <span class="day">27</span>
+                                <span class="month">sty</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" style="margin-top: 1.5rem;" onclick="confirmDelivery()">
+                            ✅ Potwierdź datę
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRACKING PAGE -->
+        <section class="page" id="page-tracking">
+            <div class="tracking-container">
+                <h2 class="section-title" style="margin-bottom: 2rem;">🚚 Śledzenie Przesyłki</h2>
+                
+                <div class="tracking-card">
+                    <div class="tracking-header">
+                        <div>
+                            <h2>📦 Twoja paczka w drodze!</h2>
+                            <p style="opacity: 0.8; margin-top: 0.5rem;">Zamówienie dla: <strong>Burek</strong></p>
+                        </div>
+                        <div class="tracking-id">TT-2026-01-15-7842</div>
+                    </div>
+
+                    <div class="tracking-timeline">
+                        <div class="timeline-track">
+                            <div class="timeline-progress" style="width: 66%;"></div>
+                        </div>
+                        <div class="timeline-steps">
+                            <div class="timeline-step completed">
+                                <div class="timeline-icon">📋</div>
+                                <div>
+                                    <div class="timeline-label">Przetwarzanie</div>
+                                    <div class="timeline-time">14 sty, 10:00</div>
+                                </div>
+                            </div>
+                            <div class="timeline-step completed">
+                                <div class="timeline-icon">📦</div>
+                                <div>
+                                    <div class="timeline-label">Wysłano</div>
+                                    <div class="timeline-time">14 sty, 16:30</div>
+                                </div>
+                            </div>
+                            <div class="timeline-step current">
+                                <div class="timeline-icon">🚚</div>
+                                <div>
+                                    <div class="timeline-label">W trasie</div>
+                                    <div class="timeline-time">15 sty, 08:15</div>
+                                </div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="timeline-icon">🏠</div>
+                                <div>
+                                    <div class="timeline-label">Dostarczono</div>
+                                    <div class="timeline-time">—</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="map-container">
+                        <div class="map-overlay">
+                            <div class="emoji">🚚</div>
+                            <p style="font-weight: 600; margin-top: 0.5rem;">Kurier w drodze do Ciebie!</p>
+                            <div class="eta-badge">⏱️ ETA: Dziś do 18:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-logo">🐕 TailorTail</div>
+            <p>© 2026 TailorTail. Dieta szyta na miarę dla Twojego pupila.</p>
+            <p style="margin-top: 0.5rem;">Stworzone z ❤️ dla wszystkich futrzaków!</p>
+        </footer>
+    </main>
+
+    <script>
+        // State Management
+        const petProfile = {
+            id: 'pet_001',
+            name: '',
+            species: '',
+            age: 0,
+            weight: 0,
+            activityLevel: '',
+            allergies: [],
+            exclusions: []
+        };
+
+        const subscription = {
+            id: 'sub_001',
+            petId: 'pet_001',
+            planId: '',
+            deliveryInterval: 14,
+            status: 'trial',
+            nextBilling: '2026-02-15'
+        };
+
+        // Diet Plans Database
+        const dietPlans = {
+            dog: {
+                low: { name: 'Plan Relaksacyjny', kcalMultiplier: 0.9, protein: 25, price: 149 },
+                moderate: { name: 'Plan Zbalansowany', kcalMultiplier: 1.0, protein: 28, price: 169 },
+                active: { name: 'Plan Aktywnego Psa', kcalMultiplier: 1.15, protein: 32, price: 189 },
+                athlete: { name: 'Plan Sportowca', kcalMultiplier: 1.3, protein: 35, price: 219 }
+            },
+            cat: {
+                low: { name: 'Plan Domowego Kota', kcalMultiplier: 0.85, protein: 30, price: 129 },
+                moderate: { name: 'Plan Ciekawskiego Kota', kcalMultiplier: 1.0, protein: 33, price: 149 },
+                active: { name: 'Plan Łowcy', kcalMultiplier: 1.1, protein: 36, price: 169 },
+                athlete: { name: 'Plan Geparda', kcalMultiplier: 1.25, protein: 40, price: 199 }
+            }
+        };
+
+        // Navigation
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page-${pageName}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector(`.nav-link[data-page="${pageName}"]`)?.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Trigger animations
+            setTimeout(() => {
+                document.querySelectorAll('.animate-in').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 100);
+                });
+            }, 100);
+        }
+
+        // Quiz Functions
+        let currentStep = 1;
+
+        function selectSpecies(species) {
+            petProfile.species = species;
+            document.querySelectorAll('.species-option').forEach(o => o.classList.remove('selected'));
+            document.querySelector(`.species-option[data-species="${species}"]`).classList.add('selected');
+        }
+
+        function selectActivity(level) {
+            petProfile.activityLevel = level;
+            document.querySelectorAll('.activity-option').forEach(o => o.classList.remove('selected'));
+            document.querySelector(`.activity-option[data-activity="${level}"]`).classList.add('selected');
+        }
+
+        function toggleAllergy(el) {
+            el.classList.toggle('selected');
+            const allergy = el.dataset.allergy;
+            if (el.classList.contains('selected')) {
+                petProfile.allergies.push(allergy);
+            } else {
+                petProfile.allergies = petProfile.allergies.filter(a => a !== allergy);
+            }
+        }
+
+        function updateProgress() {
+            document.querySelectorAll('.progress-step').forEach((step, i) => {
+                step.classList.remove('active', 'completed');
+                if (i + 1 < currentStep) step.classList.add('completed');
+                if (i + 1 === currentStep) step.classList.add('active');
+            });
+        }
+
+        function nextStep(step) {
+            // Validate current step
+            if (currentStep === 1) {
+                petProfile.name = document.getElementById('pet-name').value || 'Pupil';
+                petProfile.age = parseFloat(document.getElementById('pet-age').value) || 3;
+                petProfile.weight = parseFloat(document.getElementById('pet-weight').value) || 10;
+                
+                if (!petProfile.species) {
+                    alert('Wybierz gatunek pupila! 🐕🐈');
+                    return;
+                }
+            }
+            
+            if (currentStep === 2 && !petProfile.activityLevel) {
+                alert('Wybierz poziom aktywności! 🏃');
+                return;
+            }
+
+            document.getElementById(`quiz-step-${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`quiz-step-${currentStep}`).classList.add('active');
+            updateProgress();
+        }
+
+        function prevStep(step) {
+            document.getElementById(`quiz-step-${currentStep}`).classList.remove('active');
+            currentStep = step;
+            document.getElementById(`quiz-step-${currentStep}`).classList.add('active');
+            updateProgress();
+        }
+
+        function calculateDiet() {
+            // NutritionEngine Algorithm
+            const baseKcal = petProfile.species === 'dog' 
+                ? 70 * Math.pow(petProfile.weight, 0.75)  // Kleiber formula for dogs
+                : 60 * Math.pow(petProfile.weight, 0.67); // Modified for cats
+            
+            const plan = dietPlans[petProfile.species][petProfile.activityLevel];
+            const dailyKcal = Math.round(baseKcal * plan.kcalMultiplier);
+            
+            // Update results
+            document.getElementById('results-emoji').textContent = petProfile.species === 'dog' ? '🐕' : '🐈';
+            document.getElementById('results-name').textContent = petProfile.name;
+            document.getElementById('diet-name').textContent = plan.name;
+            document.getElementById('kcal-daily').textContent = dailyKcal;
+            document.getElementById('protein-pct').textContent = plan.protein + '%';
+            document.getElementById('monthly-price').textContent = plan.price;
+            
+            // Generate diet description based on exclusions
+            let desc = petProfile.species === 'dog' 
+                ? 'Zbilansowana receptura dla psów'
+                : 'Receptura stworzona z myślą o kotach';
+            
+            if (petProfile.allergies.length > 0) {
+                desc += ` – bez ${petProfile.allergies.slice(0, 2).join(', ')}`;
+            }
+            desc += '. Świeże składniki, dostarczone pod Twoje drzwi!';
+            document.getElementById('diet-description').textContent = desc;
+
+            // Update dashboard preview
+            updateDashboard();
+            
+            // Show results
+            nextStep(4);
+        }
+
+        function updateDashboard() {
+            document.getElementById('dashboard-avatar').textContent = petProfile.species === 'dog' ? '🐕' : '🐈';
+            document.getElementById('dashboard-pet-name').textContent = petProfile.name;
+            document.getElementById('dashboard-species').textContent = petProfile.species === 'dog' ? 'Pies' : 'Kot';
+            document.getElementById('dashboard-age').textContent = petProfile.age;
+            document.getElementById('dashboard-weight').textContent = petProfile.weight;
+            
+            const activityEmojis = { low: '😴', moderate: '🚶', active: '🏃', athlete: '🏆' };
+            document.getElementById('dashboard-activity').textContent = activityEmojis[petProfile.activityLevel] || '🚶';
+            
+            document.getElementById('edit-weight').value = petProfile.weight;
+            document.getElementById('edit-age').value = petProfile.age;
+        }
+
+        function restartQuiz() {
+            currentStep = 1;
+            petProfile.allergies = [];
+            
+            document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('quiz-step-1').classList.add('active');
+            document.querySelectorAll('.species-option, .activity-option, .allergy-tag').forEach(o => o.classList.remove('selected'));
+            document.getElementById('pet-name').value = '';
+            document.getElementById('pet-age').value = '';
+            document.getElementById('pet-weight').value = '';
+            
+            updateProgress();
+        }
+
+        function startSubscription() {
+            subscription.status = 'active';
+            showPage('dashboard');
+            
+            // Show confirmation
+            setTimeout(() => {
+                alert(`🎉 Świetnie! Subskrypcja dla ${petProfile.name} została aktywowana!\n\nPierwsza dostawa już niedługo!`);
+            }, 500);
+        }
+
+        // Dashboard Functions
+        function toggleSubscription() {
+            const toggle = document.getElementById('pause-toggle');
+            const status = document.getElementById('sub-status');
+            
+            toggle.classList.toggle('active');
+            
+            if (toggle.classList.contains('active')) {
+                status.className = 'subscription-status paused';
+                status.innerHTML = '<div class="status-dot"></div> Wstrzymana';
+                subscription.status = 'paused';
+            } else {
+                status.className = 'subscription-status active';
+                status.innerHTML = '<div class="status-dot"></div> Aktywna';
+                subscription.status = 'active';
+            }
+        }
+
+        function saveStats() {
+            petProfile.weight = parseFloat(document.getElementById('edit-weight').value);
+            petProfile.age = parseInt(document.getElementById('edit-age').value);
+            
+            document.getElementById('dashboard-weight').textContent = petProfile.weight;
+            document.getElementById('dashboard-age').textContent = petProfile.age;
+            
+            // Recalculate portion based on new weight
+            const baseKcal = petProfile.species === 'dog' 
+                ? 70 * Math.pow(petProfile.weight, 0.75)
+                : 60 * Math.pow(petProfile.weight, 0.67);
+            const plan = dietPlans[petProfile.species]?.[petProfile.activityLevel] || dietPlans.dog.moderate;
+            const dailyKcal = baseKcal * plan.kcalMultiplier;
+            const portion = Math.round(dailyKcal / 3.5); // ~3.5 kcal per gram
+            document.getElementById('edit-portion').value = portion;
+            
+            alert('✅ Dane zaktualizowane! Porcja została przeliczona.');
+        }
+
+        function selectDate(el, day, month) {
+            document.querySelectorAll('.date-option').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function confirmDelivery() {
+            const selected = document.querySelector('.date-option.selected');
+            if (selected) {
+                const day = selected.querySelector('.day').textContent;
+                const month = selected.querySelector('.month').textContent;
+                alert(`📅 Dostawa przesunięta na ${day} ${month}!\n\nOtrzymasz potwierdzenie SMS.`);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default pet profile for demo
+            petProfile.species = 'dog';
+            petProfile.name = 'Burek';
+            petProfile.age = 3;
+            petProfile.weight = 12;
+            petProfile.activityLevel = 'active';
+            
+            // Animate elements on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+            
+            // Initial animation trigger
+            setTimeout(() => {
+                document.querySelectorAll('.animate-in').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 100);
+                });
+            }, 300);
+        });
+    </script>
+</body>
+</html>
