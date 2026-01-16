@@ -25,8 +25,6 @@ https://krifiz.github.io/tailor-tail/
 
 ## Screenshots
 
-## Screenshots
-
 ![Homepage](screenshots/homepage.png)  
 ![Quiz](screenshots/quiz.png)
 ![Dashboard](screenshots/dashboard.png)
